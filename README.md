@@ -1,2 +1,1 @@
-# UnixTimestamp
-Challenge for unix timestamp
+# Backend Challenges boilerplate - package.json
