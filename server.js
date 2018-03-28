@@ -4,7 +4,6 @@
  * ***************************************************/
 
 'use strict';
-
 var fs = require('fs');
 var express = require('express');
 var app = express();
@@ -40,7 +39,18 @@ app.route('/')
     })
 app.route('/:data')
   .get(function(req, res) {
-  res.type('txt').send(req.params.data + moment());
+    var mDate = moment(req.params.data);
+    if (mDate.isValid()) {
+      res.type('application/json').send({
+        unix: mDate.unix(),
+        natural: mDate.format('LL')
+      });
+    } else {
+      res.type('application/json').send({
+        unix: null,
+        natural: null
+      });
+    }
 })
 
 // Respond not found to all the wrong routes
@@ -58,7 +68,8 @@ app.use(function(err, req, res, next) {
   }  
 })
 
-app.listen(process.env.PORT, function () {
+app.listen(process.env.PORT || 3000, function () {
+  console.log(process.env.PORT);
   console.log('Node.js listening ...');
 });
 
