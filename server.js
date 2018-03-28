@@ -8,6 +8,7 @@
 var fs = require('fs');
 var express = require('express');
 var app = express();
+var moment = require('moment');
 
 if (!process.env.DISABLE_XORIGIN) {
   app.use(function(req, res, next) {
@@ -37,6 +38,10 @@ app.route('/')
     .get(function(req, res) {
 		  res.sendFile(process.cwd() + '/views/index.html');
     })
+app.route('/:data')
+  .get(function(req, res) {
+  res.type('txt').send(req.params.data + moment());
+})
 
 // Respond not found to all the wrong routes
 app.use(function(req, res, next){
